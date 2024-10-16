@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ecd829;
+        }
+        .scores {
+            margin: 20px;
+            font-size: 18px;
+        }
+        .choices img {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        .choices img:hover {
+            transform: scale(1.1);
+        }
+        .result {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        .final-result {
+            font-size: 28px;
+            color: green;
+            margin-top: 30px;
+        }
+        .reset-btn {
+            margin-top: 20px;
+        }
+        button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+
+    <div class="scores">
+        <span><strong>Player:</strong> {{ player_score }}</span>
+        &nbsp;|&nbsp;
+        <span><strong>Computer:</strong> {{ computer_score }}</span>
+        &nbsp;|&nbsp;
+        <span><strong>Rounds:</strong> {{ rounds_played }}/{{ max_rounds }}</span>
+    </div>
+
+    {% if not game_over %}
+    <form method="POST">
+        <div class="choices">
+            <button type="submit" name="choice" value="rock">
+                <img src="{{ url_for('static', filename='rock.jpeg') }}" alt="Rock">
+            </button>
+            <button type="submit" name="choice" value="paper">
+                <img src="{{ url_for('static', filename='paper.jpeg') }}" alt="Paper">
+            </button>
+            <button type="submit" name="choice" value="scissor">
+                <img src="{{ url_for('static', filename='scissor.jpeg') }}" alt="Scissor">
+            </button>
+        </div>
+    </form>
+    {% endif %}
+
+    {% if result %}
+    <div class="result">
+        <p><storng>You choose:</storng> <strong>{{ player_choice.capitalize() }}</strong></p>
+        <p><strong>Computer choose:</strong> <strong>{{ computer_choice.capitalize() }}</strong></p>
+        <p><strong>Result: {{ result }}</strong></p>
+    </div>
+    {% endif %}
+
+    {% if game_over %}
+    <div class="final-result">
+        <p>{{ final_result }}</p>
+    </div>
+    <div class="reset-btn">
+        <a href="{{ url_for('reset') }}">Play Again</a>
+    </div>
+    {% endif %}
+</body>
+</html>
